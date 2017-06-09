@@ -1,29 +1,48 @@
-# docker-compose-php
+# docker-ddapi
 
-docker-compose setup to run latest PHP 7 under Nginx with every container outputting it's logging
-to the docker daemon.
+docker-compose 跑ddapi 
+php 7.0
+nginx
 
-# Purpose
+# 安装
 
-Create the ultimate development environment
+```
+git clone https://github.com/leapar/ddapi
+```
 
-# Install
+# 在ddapi目录下执行compose install
 
-Install docker and [docker-compose](https://docs.docker.com/compose/install/)
+# 在ddapi目录修改.env文件
 
-# Run
-	
-	$ git clone https://github.com/devigner/docker-compose-php.git
-	$ cd docker-compose-php
-	$ docker-compose build
-	$ docker-compose up -d
+```
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=
+APP_TIMEZONE=PRC
 
-# Test
+DB_CONNECTION=mysql
+DB_HOST=172.29.231.177
+DB_PORT=3306
+DB_DATABASE=apmsys
+DB_USERNAME=root
+DB_PASSWORD=Wan0926
+DB_TIMEZONE=+08:00
 
-Open url http://localhost and you will see a phpinfo page
+CACHE_DRIVER=redis
+QUEUE_DRIVER=rabbitmq
 
-# http/2
+RABBITMQ_HOST=172.29.231.70
+RABBITMQ_PORT=5672
+RABBITMQ_LOGIN=admin
+RABBITMQ_PASSWORD=admin
 
-Copy .env.dist to .env and fill in the obvious information 
+REDIS_HOST=172.29.231.177
+REDIS_PASSWORD=123456
+REDIS_PORT=6379
+```
 
-Open url https://example.com and you will see a phpinfo page running in http/2
+# 运行
+
+```
+docker-compose up -d
+```
