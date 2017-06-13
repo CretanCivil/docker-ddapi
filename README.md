@@ -43,6 +43,10 @@ REDIS_PORT=6379
 
 # 运行
 
+#export WEB_PATH=/Users/php/ddapi
+#$ docker-compose up          # WEB_PATH will be /Users/wangxiaohua/php/ddapi
+
 ```
+export WEB_PATH=/Users/php/ddapi
 docker-compose up -d
 ```

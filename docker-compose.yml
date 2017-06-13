@@ -1,4 +1,6 @@
 # PHP
+#export WEB_PATH=/Users/php/ddapi
+#$ docker-compose up          # WEB_PATH will be /Users/php/ddapi
 
 version: '2'
 
@@ -9,7 +11,14 @@ services:
     volumes:
       - ./.docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./.docker/images/php-fpm/php.ini:/usr/local/etc/php/php.ini
-      - /Users/wangxiaohua/php/ddapi:/var/www/html
+      - ${WEB_PATH}:/var/www/html
+    external_links:
+      - rabbitmq:rabbitmq.docker
+      - redis:redis.docker
+      - tsdbrelay:tsdbrelay.docker
+      - bosun:bosun.docker
+    networks:
+      - dockerbosun_default
 
   nginx-app:
     image: nginx
@@ -17,22 +26,54 @@ services:
       - "80:80"
     volumes:
       - ./.docker/images/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
-      - /Users/wangxiaohua/php/ddapi:/var/www/html
+      - ${WEB_PATH}:/var/www/html
+    external_links:
+      - rabbitmq:rabbitmq.docker
+      - redis:redis.docker
+      - tsdbrelay:tsdbrelay.docker
+      - bosun:bosun.docker
+    networks:
+      - dockerbosun_default
 
   php-worker-host:
     build: ./.docker/images/php-work
     volumes:
-      - /Users/wangxiaohua/php/ddapi:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
     command: php artisan queue:work --daemon --queue=host
+    external_links:
+      - rabbitmq:rabbitmq.docker
+      - redis:redis.docker
+      - tsdbrelay:tsdbrelay.docker
+      - bosun:bosun.docker
+    networks:
+      - dockerbosun_default
 
   php-worker-tag:
     build: ./.docker/images/php-work
     volumes:
-      - /Users/wangxiaohua/php/ddapi:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
     command: php artisan queue:work --daemon --queue=tag
+    external_links:
+      - rabbitmq:rabbitmq.docker
+      - redis:redis.docker
+      - tsdbrelay:tsdbrelay.docker
+      - bosun:bosun.docker
+    networks:
+      - dockerbosun_default
 
   php-worker-metric:
     build: ./.docker/images/php-work
     volumes:
-      - /Users/wangxiaohua/php/ddapi:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
     command: php artisan queue:work --daemon --queue=metric
+    external_links:
+      - rabbitmq:rabbitmq.docker
+      - redis:redis.docker
+      - tsdbrelay:tsdbrelay.docker
+      - bosun:bosun.docker
+    networks:
+      - dockerbosun_default
+
+networks:
+  dockerbosun_default:
+    external: true
