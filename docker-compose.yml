@@ -12,7 +12,6 @@ services:
       - ./.docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./.docker/images/php-fpm/php.ini:/usr/local/etc/php/php.ini
       - ${WEB_PATH}:/var/www/html
-      - ./.docker/images/php-fpm/entrypoint.sh:/usr/local/bin/entrypoint.sh
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -20,7 +19,6 @@ services:
       - bosun:bosun.docker
     networks:
       - dockerbosun_default
-    command: entrypoint.sh
 
   nginx-app:
     image: nginx
