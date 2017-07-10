@@ -11,7 +11,7 @@ services:
     volumes:
       - ./.docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./.docker/images/php-fpm/php.ini:/usr/local/etc/php/php.ini
-      - ${WEB_PATH}:/var/www/html
+      - ${WEB_PATH}:/var/www/html:www-data:www-data
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -40,7 +40,7 @@ services:
   php-worker-host:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
     command: php artisan queue:work --daemon --queue=host
     external_links:
       - rabbitmq:rabbitmq.docker
@@ -53,7 +53,7 @@ services:
   php-worker-tag:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
     command: php artisan queue:work --daemon --queue=tag
     external_links:
       - rabbitmq:rabbitmq.docker
@@ -66,7 +66,7 @@ services:
   php-worker-metric:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
     command: php artisan queue:work --daemon --queue=metric
     external_links:
       - rabbitmq:rabbitmq.docker
