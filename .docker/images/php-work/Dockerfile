@@ -1,6 +1,6 @@
 FROM php:7-fpm
 # Install modules
-ENV  TIME_ZONE Asiz/Shanghai
+ENV  TIMEZONE Asia/Shanghai
 RUN apt-get update && apt-get install -y \
 	libmcrypt-dev  \
 	librabbitmq-dev \
@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
 	wget \
 	mysql-client \
 	&& cd /tmp \
+	&& cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && echo "${TIMEZONE}" > /etc/timezone \
 	&& wget  https://github.com/alanxz/rabbitmq-c/releases/download/v0.8.0/rabbitmq-c-0.8.0.tar.gz \
 	&& tar xvf rabbitmq-c-0.8.0.tar.gz \
 	&& cd  rabbitmq-c-0.8.0 \
