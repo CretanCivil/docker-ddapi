@@ -1,5 +1,5 @@
 # PHP
-#export WEB_PATH=/Users/php/ddapi
+#export WEB_PATH=/home/wangxh/ddapi
 #$ docker-compose up          # WEB_PATH will be /Users/php/ddapi
 
 version: '2'
@@ -25,7 +25,7 @@ services:
     environment:  
       TIME_ZONE:Asiz/Shanghai
     ports:
-      - "80:80"
+      - "8081:80"
     volumes:
       - ./.docker/images/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
       - ${WEB_PATH}:/var/www/html
