@@ -41,8 +41,7 @@ services:
     build: ./.docker/images/php-work
     volumes:
       - ${WEB_PATH}:/usr/share/nginx/html/ddapi
-      - ./.docker/images/php-work/host.sh:/usr/local/bin/entrypoint.sh
-    command: entrypoint.sh
+    command: entrypoint.sh hostV1
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -55,8 +54,7 @@ services:
     build: ./.docker/images/php-work
     volumes:
       - ${WEB_PATH}:/usr/share/nginx/html/ddapi
-      - ./.docker/images/php-work/vcenter.sh:/usr/local/bin/entrypoint.sh
-    command: entrypoint.sh
+    command: entrypoint.sh vcenterv1
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -69,8 +67,7 @@ services:
     build: ./.docker/images/php-work
     volumes:
       - ${WEB_PATH}:/usr/share/nginx/html/ddapi
-      - ./.docker/images/php-work/metric.sh:/usr/local/bin/entrypoint.sh
-    command: entrypoint.sh
+    command: entrypoint.sh metricV1
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker

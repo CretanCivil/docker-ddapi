@@ -26,5 +26,6 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-install bcmath \
 	&& pecl install redis \
 	&& docker-php-ext-enable redis
-
+ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 777 /usr/local/bin/entrypoint.sh
 WORKDIR /usr/share/nginx/html/ddapi
