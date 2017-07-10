@@ -27,4 +27,5 @@ RUN apt-get update && apt-get install -y \
 	&& pecl install redis \
 	&& docker-php-ext-enable redis
 ADD entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 777 /usr/local/bin/entrypoint.sh
 CMD ["entrypoint.sh"]
