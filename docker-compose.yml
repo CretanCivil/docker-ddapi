@@ -22,6 +22,8 @@ services:
 
   nginx-app:
     image: nginx
+    environment:  
+      TIME_ZONE:Asiz/Shanghai
     ports:
       - "80:80"
     volumes:

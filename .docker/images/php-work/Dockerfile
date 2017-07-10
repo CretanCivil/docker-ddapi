@@ -1,5 +1,6 @@
 FROM php:7-fpm
 # Install modules
+ENV  TIME_ZONE Asiz/Shanghai
 RUN apt-get update && apt-get install -y \
 	libmcrypt-dev  \
 	librabbitmq-dev \

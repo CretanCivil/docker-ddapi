@@ -1,4 +1,5 @@
 FROM php:7-fpm
+ENV  TIME_ZONE Asiz/Shanghai
 # Install modules
 RUN apt-get update && apt-get install -y \
 	libmcrypt-dev  \
