@@ -11,7 +11,8 @@ services:
     volumes:
       - ./.docker/images/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./.docker/images/php-fpm/php.ini:/usr/local/etc/php/php.ini
-      - ${WEB_PATH}:/var/www/html:www-data:www-data
+      - ${WEB_PATH}:/var/www/html
+      - ./.docker/images/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -19,6 +20,7 @@ services:
       - bosun:bosun.docker
     networks:
       - dockerbosun_default
+    command: entrypoint.sh
 
   nginx-app:
     image: nginx
@@ -40,8 +42,9 @@ services:
   php-worker-host:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
-    command: php artisan queue:work --daemon --queue=host
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ./.docker/images/php-work/host.sh /usr/local/bin/entrypoint.sh
+    command: entrypoint.sh
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -50,11 +53,12 @@ services:
     networks:
       - dockerbosun_default
 
-  php-worker-tag:
+  php-worker-venter:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
-    command: php artisan queue:work --daemon --queue=tag
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ./.docker/images/php-work/vcenter.sh /usr/local/bin/entrypoint.sh
+    command: entrypoint.sh
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
@@ -66,8 +70,9 @@ services:
   php-worker-metric:
     build: ./.docker/images/php-work
     volumes:
-      - ${WEB_PATH}:/usr/share/nginx/html/ddapi:www-data:www-data
-    command: php artisan queue:work --daemon --queue=metric
+      - ${WEB_PATH}:/usr/share/nginx/html/ddapi
+      - ./.docker/images/php-work/metric.sh /usr/local/bin/entrypoint.sh
+    command: entrypoint.sh
     external_links:
       - rabbitmq:rabbitmq.docker
       - redis:redis.docker
